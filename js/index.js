@@ -1,3 +1,5 @@
+import resetControls from "./controls.js"
+import { Timer } from "./timer.js"
 
 const buttonPlay = document.querySelector('.play')
 const buttonPause = document.querySelector('.pause')
@@ -10,47 +12,13 @@ const secondsDisplay = document.querySelector('.seconds')
 let minutes = Number(minutesDisplay.textContent);
 let timerTimeOut;
 
-function resetControls() {
 
-  buttonPlay.classList.remove('hide')
-  buttonPause.classList.add('hide')
-  buttonSet.classList.remove('hide')
-  buttonStop.classList.add('hide')
-
-}
-
-function updateTimerDisplay(minutes, seconds) {
-  minutesDisplay.textContent = String(minutes).padStart(2, "0")
-  secondsDisplay.textContent = String(seconds).padStart(2, "0")
-}
-
-function resetTimer() {
-  updateTimerDisplay(minutes, 0)
-  clearTimeout(timerTimeOut)
-}
-
-function countDown() {
-  timerTimeOut = setTimeout(function() {
-    let minutes = Number(minutesDisplay.textContent)
-    let seconds = Number(secondsDisplay.textContent)
-    
-    updateTimerDisplay(minutes, 0)
-    
-    if (minutes <= 0 && seconds <= 0) {
-      resetControls()
-      return
-    }
-
-    if (seconds <= 0) {
-      seconds = 3
-      --minutes
-    }
-
-    updateTimerDisplay(minutes, String(seconds - 1))
-
-    countDown()
-  }, 1000)
-}
+const timer = Timer({
+  minutesDisplay,
+  secondsDisplay,
+  timerTimeOut,
+  resetControls
+})
 
 buttonPlay.addEventListener('click', function() {
   buttonPlay.classList.add('hide')
@@ -58,9 +26,8 @@ buttonPlay.addEventListener('click', function() {
   buttonSet.classList.add('hide')
   buttonStop.classList.remove('hide')
 
-  countDown()
+  timer.countDown()
 })
-
 
 buttonPause.addEventListener('click', function() {
   buttonPause.classList.add('hide')
@@ -72,7 +39,7 @@ buttonPause.addEventListener('click', function() {
 buttonStop.addEventListener('click', function() {
 
   resetControls()
-  resetTimer()
+  timer.resetTimer()
 })
 
 buttonSoundOff.addEventListener('click', function() {
@@ -88,7 +55,7 @@ buttonSoundOn.addEventListener('click', function() {
 buttonSet.addEventListener('click', function() {
   let newMinutes = prompt('Quantos minutos?')
   if (!newMinutes) {
-    resetTimer()
+    timer.resetTimer()
     return
   }
   
