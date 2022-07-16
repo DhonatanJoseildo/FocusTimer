@@ -1,15 +1,19 @@
 import { Controls } from "./controls.js"
 import { Timer } from "./timer.js"
+import Sounds from "./sounds.js";
+import { elements } from "./elements.js"
+// desistruturação
+const {
+  buttonPlay,
+  buttonPause,
+  buttonStop,
+  buttonSet,
+  buttonSoundOff,
+  buttonSoundOn,
+  minutesDisplay,
+  secondsDisplay
+} = elements
 
-const buttonPlay = document.querySelector('.play')
-const buttonPause = document.querySelector('.pause')
-const buttonStop = document.querySelector('.stop')
-const buttonSet = document.querySelector('.set')
-const buttonSoundOn = document.querySelector('.sound-on')
-const buttonSoundOff = document.querySelector('.sound-off')
-const minutesDisplay = document.querySelector('.minutes')
-const secondsDisplay = document.querySelector('.seconds')
-let minutes = Number(minutesDisplay.textContent);
 
 const controls = Controls({
   buttonPause,
@@ -21,34 +25,27 @@ const controls = Controls({
 const timer = Timer({
   minutesDisplay,
   secondsDisplay,
-  resetControls: controls.reset,
-  minutes
+  resetControls: controls.reset
 })
+
+const sound = Sounds()
 
 buttonPlay.addEventListener('click', function() {
   controls.play()
   timer.countDown()
+  sound.pressButton()
 })
 
 buttonPause.addEventListener('click', function() {
   controls.pause()
   timer.hold()
+  sound.pressButton()
 })
 
 buttonStop.addEventListener('click', function() {
-
   controls.reset()
   timer.reset()
-})
-
-buttonSoundOff.addEventListener('click', function() {
-  buttonSoundOn.classList.remove('hide')
-  buttonSoundOff.classList.add('hide')
-})
-
-buttonSoundOn.addEventListener('click', function() {
-  buttonSoundOn.classList.add('hide')
-  buttonSoundOff.classList.remove('hide')
+  sound.pressButton()
 })
 
 buttonSet.addEventListener('click', function() {
@@ -58,6 +55,19 @@ buttonSet.addEventListener('click', function() {
     return
   }
   
-  timer.updateDisplay(minutes, 0)
+  timer.updateDisplay(newMinutes, 0)
   timer.updateMinutes(newMinutes)
 })
+
+buttonSoundOff.addEventListener('click', function() {
+  buttonSoundOn.classList.remove('hide')
+  buttonSoundOff.classList.add('hide')
+  sound.bgAudio.pause()
+})
+
+buttonSoundOn.addEventListener('click', function() {
+  buttonSoundOn.classList.add('hide')
+  buttonSoundOff.classList.remove('hide')
+  sound.bgAudio.play()
+})
+

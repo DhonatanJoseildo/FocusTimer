@@ -30,7 +30,7 @@ export function Controls({
       return false
     }
     
-    newMinutes
+    return newMinutes
   }
   return {
     reset, 
