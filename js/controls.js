@@ -1,6 +1,6 @@
 export function Controls({
-  buttonPause,
   buttonPlay,
+  buttonPause,
   buttonSet,
   buttonStop
 }) {

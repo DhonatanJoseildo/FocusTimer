@@ -16,7 +16,8 @@
 }
 
 body {
-  background-color: var(--bg-color);
+  background: url(https://images.unsplash.com/photo-1563089145-599997674d42?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80) no-repeat;
+  background-size: cover;
   color: var(--text-color);
 
   font-family: 'Roboto', sans-serif;
@@ -67,6 +68,10 @@ main{
 
   width: clamp(10rem, 10rem + 30vw, 22.8rem);
   height: clamp(8rem, 5rem + 10vw, 10.8rem);
+}
+
+#controls:hover{
+  background-color: hsla(var(--base-color), 100%, 63%, 0.33);
 }
 
 footer{
